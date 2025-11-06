@@ -8,7 +8,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Event Management System API")
 
-# include routers with a single prefix each
+# routers
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 app.include_router(events.router, prefix="/events", tags=["Events"])
 app.include_router(rsvps.router, prefix="/rsvps", tags=["RSVPs"])

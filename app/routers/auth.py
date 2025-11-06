@@ -11,7 +11,7 @@ router = APIRouter()
 
 @router.post("/register", response_model=UserOut)
 def register(user_in: UserCreate, db: Session = Depends(get_db)):
-    # check duplicate email or username
+    # checks for duplicate email or username
     if db.query(User).filter(User.email == user_in.email).first():
         raise HTTPException(status_code=400, detail="Email already registered")
     if db.query(User).filter(User.username == user_in.username).first():

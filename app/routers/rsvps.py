@@ -16,12 +16,12 @@ def create_rsvp(rsvp_in: RSVPCreate, db: Session = Depends(get_db), current_user
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
 
-    # Check if user already RSVPed
+    # Checks if user already RSVPed
     existing = db.query(RSVP).filter(RSVP.event_id == rsvp_in.event_id, RSVP.user_id == current_user.id).first()
     if existing:
         raise HTTPException(status_code=400, detail="Already RSVPed for this event")
 
-    # Count existing RSVPs (total)
+    # Counts existing RSVPs (total)
     count = db.query(RSVP).filter(RSVP.event_id == rsvp_in.event_id).count()
     if count >= event.max_attendees:
         raise HTTPException(status_code=400, detail="Event is full")
@@ -39,7 +39,7 @@ def my_rsvps(db: Session = Depends(get_db), current_user=Depends(get_current_use
 
 @router.get("/event/{event_id}", response_model=List[RSVPOut])
 def event_rsvps(event_id: int, db: Session = Depends(get_db), current_user=Depends(get_current_organizer)):
-    # organizer only — verify organizer owns the event
+    # organizer only, verify organizer owns the event
     event = db.query(Event).filter(Event.id == event_id).first()
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
