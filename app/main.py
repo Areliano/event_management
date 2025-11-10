@@ -1,7 +1,8 @@
 # app/main.py
 from fastapi import FastAPI
 from app.core.database import Base, engine
-from app.routers import auth, events, rsvps  # import packages
+# import packages
+from app.routers import auth, events, rsvps  
 
 # create DB tables
 Base.metadata.create_all(bind=engine)

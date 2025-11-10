@@ -54,7 +54,7 @@ def approve_rsvp(rsvp_id: int, db: Session = Depends(get_db), current_user=Depen
     if not rsvp:
         raise HTTPException(status_code=404, detail="RSVP not found")
 
-    # make sure organizer owns the event
+    # checks to make sure organizer owns the event
     event = db.query(Event).filter(Event.id == rsvp.event_id).first()
     if not event or event.organizer_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not permitted to approve")
